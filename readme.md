@@ -3,7 +3,7 @@
 * audioPlayInWX：微信端自动播放音乐的问题
 * clip-path: 图片的clip-path属性实现的一些动画效果
 * cropper图片裁剪: 一个图片裁剪的插件
-* drag_drop: 拖放功能
+* drag_drop: 拖放功能（拖拽）
 * input_img&video: input选择图片及视频，并且展示在页面上
 * love_video: createjs视频的一个love的视频拼接
 * md5_base64_sha: md5,base64,sha进行编码
