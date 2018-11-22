@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="js/qrcode.js"></script>
+    <style>
+    #qrcode {
+        width: 300px;
+        display: inline-block;
+    }
+    #qrcode img{
+        width: 80%;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="qrcode">
+    </div>
+    <div style="width: 300px;display: inline-block;">
+        <img src="" id="ewm" style="width: 100%;">
+    </div>
+    <div>
+        <input type="text" id="getval" />
+        <button id="send">点击更换验证码</button>
+    </div>
+    <script>
+    window.onload = function() {
+
+        // qrcode
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            width: 200, //设置宽高
+            height: 200
+        });
+        qrcode.makeCode("http://www.baidu.com");
+
+        // 百度
+        document.getElementById('ewm').src = 'https://pan.baidu.com/share/qrcode?w=400&h=400&url=http://www.baidu.com';
+
+
+        document.getElementById("send").onclick = function() {
+            qrcode.makeCode(document.getElementById("getval").value);
+
+            var url = 'https://pan.baidu.com/share/qrcode?w=400&h=400&url=' + document.getElementById("getval").value
+            document.getElementById('ewm').src = url;
+        };
+
+
+    }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>switch</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body>
+    <div>
+        <label>
+            <input class="mui-switch" type="checkbox" id="switch"> 默认未选中
+        </label>
+    </div>
+    <div>
+    </div>
+    <div>
+        <label>
+            <input class="mui-switch" type="checkbox" checked> 默认选中
+        </label>
+    </div>
+    <div>
+        <label>
+            <input class="mui-switch mui-switch-animbg" type="checkbox"> 默认未选中,简单的背景过渡效果,加mui-switch-animbg类即可
+        </label>
+    </div>
+    <div>
+        <label>
+            <input class="mui-switch mui-switch-animbg" type="checkbox" checked> 默认选中
+        </label>
+    </div>
+    <div>
+        <label>
+            <input class="mui-switch mui-switch-anim" type="checkbox"> 默认未选中，过渡效果，加 mui-switch-anim 类即可
+        </label>
+    </div>
+    <div>
+        <label>
+            <input class="mui-switch mui-switch-anim" type="checkbox" checked> 默认选中
+        </label>
+    </div>
+</body>
+<script type="text/javascript">
+	
+		var oswitch= document.getElementById('switch');
+			oswitch.onchange=function() {
+				console.log(this.checked)
+			}
+</script>
+</html>

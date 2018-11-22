@@ -1,0 +1,118 @@
+*,
+body,
+html {
+    margin: 0;
+    padding: 0;
+}
+
+.inset {
+    animation: circle 3s;
+    /*clip-path: inset(40% 30% 40% 30% round 50% 50%);*/
+}
+
+
+/*在clip-path的属性值中的inset()函数中有四个值，
+分别表达着top/left和bottom/right四个点，
+圈出一个矩形面积。这个矩形面积外的部分都将被裁剪隐藏掉。
+
+
+clip-path的其他属性应用
+
+ 引用一个内联的 SVG <clipPath>路径
+  clip-path: url(#c1); 
+
+  引用一个外部的 SVG  路径
+  clip-path: url(path.svg#c1);
+
+   多边形 
+  clip-path: polygon(5% 5%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%);
+
+ 圆形 
+  clip-path: circle(r at x y);
+
+ 椭圆 
+  clip-path: ellipse(rx ry at x y);
+
+   inset-rectangle() 将会替代 inset() ? 
+ rectangle() 有可能出现于 SVG 2 
+
+ 圆角 
+  clip-path: inset(10% 10% 10% 10% round 20%, 20%);
+  inset(top right bottom left round top-radius right-r bottom-r left-r)
+
+Circle: circle(radius at x-axis y-axis)
+Ellipse: ellipse(x-rad y-rad at x-axis y-axis)
+Polygon: polygon(x-axis y-axis, x-axis y-axis, … )
+Inset: inset(top right bottom left round top-radius right-radius bottom-radius left-radius)
+
+*/
+
+@keyframes upToDown {
+    from {
+        clip-path: inset(0% 0% 100% 0%);
+    }
+    to {
+        clip-path: inset(0% 0% 0% 0%);
+    }
+}
+
+@keyframes roundCenterToAll {
+    from {
+        clip-path: inset(45% 40% 45% 50% round 50%);
+    }
+    to {
+        clip-path: inset(0% round 0%);
+    }
+}
+
+@keyframes pentagon {
+    from {
+        clip-path: polygon(40% 40%, 60% 40%, 70% 50%, 60% 60%, 40% 60%, 30% 50%);
+    }
+    to {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%)
+    }
+}
+
+@keyframes star {
+    0% {
+        transform: scale(0);
+        clip-path: polygon(50% 50%, 50% 45%, 55% 50%, 50% 50%, 50% 55%, 45% 50%, 50% 55%, 45% 50%, 50% 50%, 50%, 50%);
+    }
+    30% {
+        clip-path: polygon(50% 0%, 63% 38%, 100% 38%, 69% 59%, 82% 100%, 50% 75%, 18% 100%, 31% 59%, 0% 38%, 37% 38%);
+    }
+    100% {
+        transform: scale(1);
+        clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%, 0% 0%, 0% 0%)
+    }
+}
+
+@keyframes cross {
+    from {
+      transform: scale(0);
+        clip-path: polygon(50% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%)
+    }
+    to {
+      transform: scale(1);
+        clip-path: polygon(20% 0%, 0% 0%, 0% 50%, 0% 80%, 0% 100%, 50% 100%, 80% 100%, 100% 100%, 100% 50%, 100% 0, 80% 0, 50% 0);
+    }
+}
+
+@keyframes ellipse {
+    from {
+     clip-path: ellipse(10% 5% at 50% 50%);
+    }
+    to {
+      clip-path: ellipse(100% 100% at 50% 50%);
+    }
+}
+
+@keyframes circle {
+    from {
+     clip-path: circle(5% at 50% 50%);
+    }
+    to {
+      clip-path: circle(100% at 50% 50%);
+    }
+}

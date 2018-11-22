@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>摇一摇</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        background: #292D2E;
+    }
+    
+    .hand {
+        width: 40%;
+        margin: 0 auto;
+        margin-top: 150px;
+    }
+    
+    .hand img {
+        width: 100%;
+        height: auto;
+    }
+    
+    .hand-animate {
+        -webkit-animation: hand_move infinite 0.6s;
+    }
+    
+    .result {
+        background: #3a3b3d;
+        border: #2C2C2C 1px solid;
+        box-shadow: inset #4D4F50 0 0 0 1px;
+        border-radius: 5px;
+        color: #fff;
+        padding: 10px;
+        width: 85%;
+        margin: 0 auto;
+        margin-top: 30px;
+        opacity: 0;
+        -webkit-transition: all 1s;
+        -moz-transition: all 1s;
+        -ms-transition: all 1s;
+        -o-transition: all 1s;
+        transition: all 1s;
+    }
+    
+    .result .pic {
+        width: 50px;
+        height: 50px;
+        float: left;
+        background: #fff;
+    }
+    
+    .result .con {
+        overflow: hidden;
+        height: 48px;
+        zoom: 1;
+        line-height: 24px;
+        position: relative;
+        background: url(icon_go.png) right center no-repeat;
+    }
+    
+    .result .con .imgLeft {
+        position: absolute;
+        width: 48px;
+        height: 48px;
+        top: 0px;
+        left: 0px;
+        opacity: 1;
+    }
+    
+    .result .con .imgLeft img {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .result .con .contRight {
+        margin-left: 53px;
+        color: #b2b2b2;
+    }
+    
+    .result .con .contRight .mainTitle {
+        font-size: 16px;
+    }
+    
+    .result .con .contRight .subTitle {
+        font-size: 14px;
+    }
+    
+    .result-show {
+        opacity: 1;
+        margin-top: 50px;
+    }
+    
+    .loading {
+        width: auto;
+        margin: 0 auto;
+        margin-top: 0px;
+        color: #eee;
+        font-size: 14px;
+        text-align: center;
+        height: 30px;
+        opacity: 0;
+    }
+    
+    .loading span.icon {
+        display: inline-block;
+        background: url(spinner.png) left center no-repeat;
+        width: 30px;
+        height: 30px;
+        background-size: auto 100%;
+        -webkit-animation: loading infinite linear .5s;
+        -moz-animation: loading infinite linear .5s;
+        -ms-animation: loading infinite linear .5s;
+        -o-animation: loading infinite linear .5s;
+        animation: loading infinite linear .5s;
+        -webkit-transition: all .5s;
+        -moz-transition: all .5s;
+        -ms-transition: all .5s;
+        -o-transition: all .5s;
+        transition: all .5s;
+    }
+    
+    .loading span.txt {
+        display: inline-block;
+        position: relative;
+        top: -8px;
+    }
+    
+    .loading-show {
+        opacity: 1;
+    }
+    
+    @-webkit-keyframes hand_move {
+        0% {
+            -webkit-transform: rotate(0);
+            -moz-transform: rotate(0);
+            -ms-transform: rotate(0);
+            -o-transform: rotate(0);
+            transform: rotate(0);
+        }
+        50% {
+            -webkit-transform: rotate(15deg);
+            -moz-transform: rotate(15deg);
+            -ms-transform: rotate(15deg);
+            -o-transform: rotate(15deg);
+            transform: rotate(15deg);
+        }
+        100% {
+            -webkit-transform: rotate(0);
+            -moz-transform: rotate(0);
+            -ms-transform: rotate(0);
+            -o-transform: rotate(0);
+            transform: rotate(0);
+        }
+    }
+    
+    @-webkit-keyframes loading {
+        0% {
+            -webkit-transform: rotate(0);
+            -moz-transform: rotate(0);
+            -ms-transform: rotate(0);
+            -o-transform: rotate(0);
+            transform: rotate(0);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <script type="text/javascript">
+    /*20:5 创建于 2015-07-27*/
+    var cpro_id = "u2230584";
+    </script>
+    <div id="hand" class="hand"><img src="img/hand.png" /></div>
+    <div id="loading" class="loading"><span class="icon"></span><span class="txt">正在努力的加载结果，请稍候~</span></div>
+    <div id="result" class="result">
+        <div class="con">
+            <div class="imgLeft"><img src="img/logo_com01.jpg" /></div>
+            <div class="contRight">
+                <p class="mainTitle">上岛咖啡</p>
+                <p class="subTitle">品质一流的咖啡</p>
+            </div>
+        </div>
+    </div>
+    <script>
+    var audio_shake;
+    window.onload = function() {
+        initAudio();
+    }
+    var initAudio = function() {
+        audio_shake = document.createElement("audio");
+        audio_shake.src = 'shakes.mp3';
+    }
+
+    var times = 0;
+
+
+
+//----==----==---- 摇动事件开始 ----==------==-----
+    var SHAKE_THRESHOLD = 1800;
+    var last_update = 0;
+    var x = y = z = last_x = last_y = last_z = 0;
+
+    //事件监听
+    if (window.DeviceMotionEvent) {
+        window.addEventListener('devicemotion', deviceMotionHandler, false);
+    } else {
+        alert('抱歉，你的手机配置实在有些过不去，考虑换个新的再来试试吧');
+    }
+
+    
+
+    function deviceMotionHandler(eventData) {
+
+        //捕捉重力加速度
+        var acceleration = eventData.accelerationIncludingGravity;
+
+        var curTime = new Date().getTime();
+
+
+        if ((curTime - last_update) > 100) {
+            var diffTime = curTime - last_update;
+            last_update = curTime;
+            x = acceleration.x;
+            y = acceleration.y;
+            z = acceleration.z;
+            var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+            var status = document.getElementById("status");
+
+            if (speed > SHAKE_THRESHOLD) {
+
+                //自己的代码写在这里
+                doResult();
+
+                times++;
+
+            }
+            last_x = x;
+            last_y = y;
+            last_z = z;
+        }
+    }
+//---==---==-- 摇动事件结束 ----==----==---
+
+
+    //播放控制
+    function autoPlay() {
+        var index = 0;
+        audio_shake.addEventListener('ended', function() {
+            // Wait 500 milliseconds before next loop  
+            setTimeout(function() {
+                if (index < 1) {
+                    audio_shake.play();
+                    index++
+                }
+            }, 500);
+        }, false);
+        audio_shake.play();
+    }
+
+    function autoPlayed() {
+        var audio = document.createElement("audio");
+        var index = 0;
+        audio.src = "skresult.mp3";
+        audio.addEventListener('ended', function() {
+            // Wait 500 milliseconds before next loop  
+            setTimeout(function() {
+                if (index < 0) {
+                    audio.play();
+                    index++
+                }
+            }, 0);
+        }, false);
+        audio.play();
+    }
+
+
+    function doResult() {
+        if (times > 0) {
+            return false;
+        }
+        autoPlay();
+        document.getElementById("result").className = "result";
+        document.getElementById("loading").className = "loading loading-show";
+        document.getElementById("hand").className = "hand hand-animate";
+
+        setTimeout(function() {
+            autoPlayed();
+        }, 2500);
+
+        setTimeout(function() {
+            times = 0;
+            document.getElementById("result").className = "result result-show";
+            document.getElementById("loading").className = "loading";
+            document.getElementById("hand").className = "hand";
+        }, 3000);
+    }
+    </script>
+    <!-- <script type="text/javascript">
+    var cpro_id = "u2469557";
+    (window["cproStyleApi"] = window["cproStyleApi"] || {})[cpro_id] = {
+        cpro_close_time: "10",
+        cpro_show_dist: "5",
+        cpro_enable_hidden_float: "true",
+        xuanting: "3",
+        pat: "6",
+        rss1: "#FFFFFF",
+        titFF: "%E5%BE%AE%E8%BD%AF%E9%9B%85%E9%BB%91",
+        titFS: "14",
+        rss2: "#000000",
+        scale: "20.6",
+        titSU: "0",
+        ptbg: "90",
+        ptp: "0",
+        at: "3",
+        tn: "template_inlay_all_mobile_lu_native",
+        adp: "1",
+        ptt: "0"
+    }
+    </script> -->
+</body>
+
+</html>

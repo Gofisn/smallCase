@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>上传</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+</head>
+
+<body>
+    <div>
+        <!-- //只允许上传图片 accept="image/*"-->
+        <input type="file" id="imgfile" accept="image/*">
+        <img src="" id="img" style="width: 200px;height: auto;">
+    </div>
+    <div>
+        <!-- //只允许上传视频文件 accept="video/*"-->
+        <input type="file" id="file" accept="video/*">
+        <video autobuffer autoloop loop controls id="video" style="width: 200px;height: auto;"></video>
+    </div>
+    <div>
+        <button id="revoke">revoke</button>
+    </div>
+    <hr>
+    <div><img id="test" src="" alt="" /></div>
+</body>
+<script type="text/javascript" src='https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js'></script>
+<script src='js/browser-md5-file.js'></script>
+<script type="text/javascript">
+$(function() {
+    $("#imgfile").on("change", function() {
+        var file = this.files[0];
+        
+        console.log(file);
+        // blobToBase64(file, function(img) {
+        //     $('#img').attr('src', img);
+        // });
+
+        var srcs = getObjectURL(file); //获取路径
+        $('#revoke').on('click', function() {
+            window.URL.revokeObjectURL(srcs)
+        })
+        // browser-md5-file 浏览器获取文件MD5值
+        browserMD5File(file, function(err, md5) {
+            console.log('图片MD5值：'+md5);
+        });
+    })
+
+    $("#file").on("change", function() {
+        console.log(this.files[0])
+        var srcs = getObjectURL(this.files[0]); //获取路径
+        console.log(srcs)
+        $('#video').attr('src', srcs)
+    })
+})
+
+function getObjectURL(file) {
+    var url = null;
+    if (window.createObjectURL != undefined) {
+        url = window.createObjectURL(file)
+    } else if (window.URL != undefined) {
+        url = window.URL.createObjectURL(file)
+    } else if (window.webkitURL != undefined) {
+        url = window.webkitURL.createObjectURL(file)
+    }
+    return url
+};
+
+
+function blobToBase64(file, callback) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function(e) {
+        if (callback)
+            callback(e.target.result)
+    }
+};
+
+var imgSrc = "https://img.alicdn.com/bao/uploaded/TB1qimQIpXXXXXbXFXXSutbFXXX.jpg";
+// var imgSrc = "img/1.jpg";
+getBase64(imgSrc)
+    .then(function(base64) {
+        // console.log(base64);
+        $('#test').attr('src', base64)
+    }, function(err) {
+        console.log(err);
+    });
+
+function getBase64(img) { //传入图片路径，返回base64
+
+    if (img) {
+        var image = new Image();
+        image.crossOrigin = '';
+        image.src = img;
+        var deferred = $.Deferred();
+        image.onload = function() {
+            deferred.resolve(getBase64Image(image)); //将base64传给done上传处理
+        }
+        return deferred.promise(); //问题要让onload完成后再return sessionStorage['imgTest']
+    }
+}
+
+function getBase64Image(img, width, height) { //width、height调用时传入具体像素值，控制大小 ,不传则默认图像大小
+    var canvas = document.createElement("canvas");
+    canvas.width = width ? width : img.width;
+    canvas.height = height ? height : img.height;
+
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    var dataURL = canvas.toDataURL();
+    return dataURL;
+}
+</script>
+
+</html>

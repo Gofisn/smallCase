@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>divDrag</title>
+    <style>
+    #div1 {
+        width: 300px;
+        height: 300px;
+        background-color: #ccc;
+        /*一定要绝对定位*/
+        position: absolute;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="div1"></div>
+    <!-- <script src="drag.js"></script> -->
+</body>
+
+</html>
+<script type="text/javascript">
+window.onload = function() {　　
+        var div1 = document.getElementById("div1");　　
+        div1.onmousedown = function(ev) {　　　　
+            var oevent = ev || event;
+
+            var distanceX = oevent.clientX - div1.offsetLeft;　　　　
+            var distanceY = oevent.clientY - div1.offsetTop;
+
+            　　　　
+            document.onmousemove = function(ev) {　　　　　　
+                var oevent = ev || event;　　　　　　
+                div1.style.left = oevent.clientX - distanceX + 'px';　　　　　　
+                div1.style.top = oevent.clientY - distanceY + 'px';　　　　
+            };　　　　
+            document.onmouseup = function() {　　　　　　
+                document.onmousemove = null;　　　　　　
+                document.onmouseup = null;　　　　
+            }
+        }
+    }
+</script>

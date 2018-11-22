@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>page</title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/turn.js"></script>
+    <!-- <script type="text/javascript" src="js/modernizr.2.5.3.min.js"></script> -->
+    <!-- <script type="text/javascript" src="js/zepto.min.js"></script> -->
+</head>
+
+<body style="margin: 0;padding: 0;">
+    <div class="flipbook-viewport" style="display: none;">
+        <!-- <div class="container"> -->
+        <div class="flipbook">
+            
+            <div style="width: 100%;height: 100%;background: #ff0;text-align: center;">
+                <button class="btn_next">next two</button>
+            </div>
+            <div style="width: 100%;height: 100%;background: #f0f;text-align: center;">
+                <button class="btn_next">next three</button>
+            </div>
+            <div style="width: 100%;height: 100%;background: #0f0;text-align: center;">
+                <button class="btn_next">next four</button>
+            </div>
+            <div style="width: 100%;height: 100%;background: #f00;text-align: center;">
+                <button class="btn_next">next five</button>
+            </div>
+            
+            <div style="width: 100%;height: 100%;background: #0ff;text-align: center;" id="five">
+                <button class="btn_next">next six</button>
+            </div>
+            <div style="width: 100%;height: 100%;background: #eaf;text-align: center;" class="seven">
+                <button class="btn_seven" style="width: 100px;height: 100px;display: inline-block;">next seven</button>
+            </div>
+            <div style="width: 100%;height: 100%;background: #fff;text-align: center;">
+                <button class="btn_one">next one</button>
+            </div>
+            
+        </div>
+        <!-- </div> -->
+    </div>
+    <!-- <div style="position: absolute;z-index: 99999;top: 0;left: 0;width: 100%;height: 100%;">
+        <button id="btn" style="width: 50px;margin: 30% auto;">btn</button>
+    </div> -->
+    <script type="text/javascript">
+    // $('.btn').bind('touchend', function() {
+    //     var pageCount = $(".flipbook").turn("pages"); //总页数
+    //     var currentPage = $(".flipbook").turn("page"); //当前页
+    //     console.log()
+    //     if (currentPage < pageCount) {
+    //         $(".flipbook").turn('page', currentPage + 1);
+    //     }
+    // })
+    // $('#flipbook').bind('start',
+    //     function(event, pageObject, corner) {
+    //         if (corner == 'tl' || corner == 'tr') {
+    //             event.preventDefault();
+    //         }
+    //     });
+    $(function progressbar() {
+        setTimeout(function() {
+            $(".flipbook-viewport").show();
+        }, 500);
+    });
+    //屏蔽ios下上下弹性
+    $(window).on('scroll.elasticity', function(e) {
+        e.preventDefault();
+    }).on('touchmove.elasticity', function(e) {
+        e.preventDefault();
+    });
+    loadApp()
+
+    function loadApp() {
+        var w = $(window).width();
+        var h = $(window).height();
+        $('.flipboox').width(w).height(h);
+        $(window).resize(function() {
+            w = $(window).width();
+            h = $(window).height();
+            $('.flipboox').width(w).height(h);
+        });
+
+        // $('.flipbook').turn({
+        //     // Width
+        //     width: w,
+        //     // Height
+        //     height: h,
+        //     // Elevation
+        //     elevation: 50,
+        //     display: 'single',
+        //     // Enable gradients
+        //     gradients: true,
+        //     // Auto center this flipbook
+        //     autoCenter: true,
+        //     turnCorners: 'br',
+        //     acceleration: false,
+        //     animating: false,
+        //     disable: false,
+        //     peel: false,
+        //     // direction:'rtl',
+        // });
+        $('.flipbook').turn({
+                // Width
+                width: w,
+                // Height
+                height: h,
+                display: 'single',
+                // Enable gradients
+                gradients: true,
+                elevation: 80,
+                mouse_enabled: false,
+                direction:'ltr',
+                // duration:1000
+            });
+        $(".btn_next").off('click').on('click', function(e) {
+            e.preventDefault();
+            $('.flipbook').turn('next');
+            console.log('next');
+        })
+        $(".btn_one").on('click', function(e) {
+            e.preventDefault();
+            $('.flipbook').turn('page', 1);
+
+        })
+        $(".btn_seven").on('click', function(e) {
+            e.preventDefault();
+            console.log('seven');
+            $('.flipbook').turn('page', 1);
+        })
+        $(".seven").on('click', function(e) {
+            e.preventDefault();
+            console.log('seven');
+            // $('.flipbook').turn('page', 1);
+        })
+        $("#five").on('mouseup', function(e) {
+            e.preventDefault();
+            console.log('five');
+        })
+    }
+    // $('#btn').on('click',function() {
+    //     $('.flipbook').turn('next');
+    // })
+    // Load the HTML4 version if there's not CSS transform
+    // yepnope({
+    //     test: Modernizr.csstransforms,
+    //     yep: ['js/turn.js'],
+    //     nope: ['js/turn.html4.min.js'],
+    //     complete: loadApp
+    // });
+    </script>
+</body>
+
+</html>

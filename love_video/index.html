@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>love</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="js/libs/createjs-2015.11.26.min.js"></script>
+    <script src="js/player.js"></script>
+
+</head>
+
+<body style="width: 100%;height: 100%;margin: 0;padding: 0;">
+    <div style="margin: 0;padding: 0;width: 100%;height: 100%;">
+        <canvas id="testCanvas" width="3104" height="320" style="background:black;margin: 0;padding: 0;width: 100%;height: 100%;position: absolute;top: 0;left: 0;"></canvas>
+    </div>
+    <script>
+        var parseUrlQuery = function(url) {
+            var query = {},
+                i, params, param;
+            if (url.indexOf('?') >= 0) url = url.split('?')[1];
+            else return query;
+            params = url.split('&');
+            for (i = 0; i < params.length; i++) {
+                param = params[i].split('=');
+                query[param[0]] = param[1];
+            }
+            return query;
+        };
+        var params = parseUrlQuery(window.location.href);
+        var player = new window.ghz.Player({
+            container: "testCanvas",           
+        });
+    </script>
+</body>
+
+</html>

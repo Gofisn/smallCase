@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="js/snowfall.js"></script>
+</head>
+
+<body style="background-color: #000;height: 100%;width: 100%;">
+    <div style="width: 500px;height: 600px;background-color: #f00;" id="sno"></div>
+    <script>
+    // snowFall.snow(document.getElementById('sno'), { image: "img/flake.png", minSize: 5, maxSize: 20, maxSpeed: 2 }); 
+    var cont = 13;
+    snowFall.snow(document.body, {
+        image: "img/flake.png",
+        minSize: 5,
+        maxSize: 20,
+        maxSpeed: 2,
+        flakeCount: cont,
+        faded: true
+    });
+    // setTimeout(function() {
+    //        document.body.snow.clear();
+    // }, 2000)
+
+    </script>
+</body>
+
+</html>

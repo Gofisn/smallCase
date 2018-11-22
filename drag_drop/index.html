@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>drag_drop</title>
+</head>
+
+<body>
+    <div style="width: 500px;height: 500px;border: 1px solid #000;" id="targit">
+    </div>
+    <div style="width: 300px;height: 300px; border: 1px solid #f00;background: #ccc;" id="target2">
+        <img src="img/moon.png" style="width: 100%;" draggable='true' id="cont">
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+var oTargit = document.getElementById('targit');
+var oCont = document.getElementById('cont');
+var oTargit2 = document.getElementById('target2');
+
+// 开始拖动
+oCont.addEventListener('dragstart', function(e) {
+    var dragId = e.target.id;
+    // 获得拖动元素
+    e.dataTransfer.setData('text', dragId);
+    console.log(e.dataTransfer)
+})
+
+// 关闭默认处理
+// oTargit.addEventListener('dragenter', function(e) {
+//     dragEnter(e);
+// })
+oTargit.addEventListener('dragover', function(e) {
+    dragOver(e);
+})
+
+// oTargit2.addEventListener('dragenter', function(e) {
+//     dragEnter(e);
+// })
+oTargit2.addEventListener('dragover', function(e) {
+    dragOver(e);
+})
+
+
+
+
+// 有东西放到了目标元素
+oTargit.addEventListener('drop', function(e) {
+   drop(e);
+})
+// 有东西放到了目标元素
+oTargit2.addEventListener('drop', function(e) {
+   drop(e);
+})
+
+function dragEnter(e) {
+    e.preventDefault();
+    console.log('拖动元素进入目标元素');
+}
+function dragOver(e) {
+    e.preventDefault();
+    console.log('dragover');
+}
+function drop(e) {
+     console.log('drop');
+    e.preventDefault();
+    var drag_id = e.dataTransfer.getData('text');
+    // 获取拖动元素
+    var dragCont = document.getElementById(drag_id);
+    // document.body.removeChild(dragCont);
+    e.target.appendChild(dragCont);
+}
+</script>

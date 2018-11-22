@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale-1,user-scalable=no">
+</head>
+
+<body>
+    <input type="text" name="" id="mytxt" placeholder="请输入你想要说的话">
+    <button class="submit">提交</button>
+    <audio src="#" id="audio"></audio>
+</body>
+<script src="http://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript">
+var AppID = 9660396
+
+var APIKey = 'URLNkFo0TUOAfjKfTnzAhgEOuTyvHZkp'
+
+var SecretKey = 'fdBHPgXl1ZRC0GnR8CbDfc2wZCZ2VFjE';
+var token = "25.30bde0b989d6e46f2e3c95ad87567bf3.315360000.1823062021.282335-9660396";
+var audio = document.getElementById('audio');
+
+function initPlay(audio) {
+    document.addEventListener("WeixinJSBridgeReady", function() {
+        audio.play();
+        // audio.pause();
+    }, false);
+    document.addEventListener('YixinJSBridgeReady', function() {
+        audio.play();
+        // audio.pause();
+    }, false);
+}
+
+$('.submit').on('click', function() {
+    var mytxt = $('#mytxt').val()
+    var txt = 'http://tsn.baidu.com/text2audio?tok=25.30bde0b989d6e46f2e3c95ad87567bf3.315360000.1823062021.282335-9660396&cuid=URLNkFo0TUOAfjKfTnzAhgEOuTyvHZkp&ctp=1&lan=zh&tex=' + mytxt
+    $('#audio').attr('src', txt);
+    audio.play();
+})
+// getTTS()
+function getTTS() {
+    $.ajax({
+        url: 'http://tsn.baidu.com/text2audio',
+        type: 'get',
+        dataType: 'json',
+        data: {
+            'tex': '你好吗',
+            'tok': token,
+            'cuid': APIKey,
+            'ctp': '1',
+            'lan': 'zh'
+        },
+        success: function(rs) {
+
+
+        }
+    })
+}
+// getToken()
+function getToken() {
+    // 跨域
+    $.ajax({
+        url: 'https://openapi.baidu.com/oauth/2.0/token',
+        type: 'get',
+        dataType: 'json',
+        data: {
+            'grant_type': 'client_credentials',
+            'client_id': APIKey,
+            'client_secret': SecretKey
+        },
+        success: function(rs) {
+            token = rs.refresh_token;
+
+        }
+    })
+}
+</script>
+
+</html>
