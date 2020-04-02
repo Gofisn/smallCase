@@ -18,4 +18,4 @@
 * 摇一摇：手机摇一摇的实现
 * 雪花飘：snowfall.js 实现雪花飘落的效果
 * 页面生成二维码： qrcode.js及百度云的页面生成二维码功能
-*
+* canvas_fireworks  canvas 实现的燃放烟花的效果
