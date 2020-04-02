@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>vue结合原生js实现拖动</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1, user-scalable=no">
+
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="dragCtn fixed" @mousedown="down" @touchstart="down" @mousemove="move" @touchmove="move"
+            @mouseup="end" @touchend="end">
+        </div>
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                flags: false,
+                position: {
+                    x: 0,
+                    y: 0
+                },
+                nx: '',
+                ny: '',
+                dx: '',
+                dy: '',
+                xPum: '',
+                yPum: '',
+            },
+            methods: {
+                // 实现移动端拖拽
+                down(event) {
+                    event = event || window.event;
+                    this.flags = true;
+                    let touch;
+                    if (event.touches) {
+                        touch = event.touches[0];
+                    } else {
+                        touch = event;
+                    }
+                    this.position.x = touch.clientX;
+                    this.position.y = touch.clientY;
+                    this.dx = event.target.offsetLeft;
+                    this.dy = event.target.offsetTop;
+                },
+                move(event) {
+                    event = event || window.event;
+                    if (this.flags) {
+                        let touch;
+                        if (event.touches) {
+                            touch = event.touches[0];
+                        } else {
+                            touch = event;
+                        }
+                        this.nx = touch.clientX - this.position.x;
+                        this.ny = touch.clientY - this.position.y;
+                        this.xPum = this.dx + this.nx;
+                        this.yPum = this.dy + this.ny;
+                        //添加限制：只允许在屏幕内拖动
+                        const maxWidth = document.body.clientWidth - 54; //屏幕宽度减去悬浮框宽高
+                        const maxHeight = document.body.clientHeight - 54;
+                        if (this.xPum < 0) { //屏幕x限制
+                            this.xPum = 0;
+                        } else if (this.xPum > maxWidth) {
+                            this.xPum = maxWidth;
+                        }
+                        if (this.yPum < 0) { //屏幕y限制
+                            this.yPum = 0;
+                        } else if (this.yPum > maxHeight) {
+                            this.yPum = maxHeight;
+                        }
+                        event.target.style.left = this.xPum + "px";
+                        event.target.style.top = this.yPum + "px";
+                        //阻止页面的滑动默认事件
+                        document.addEventListener("touchmove", function (
+                            event) { // 1.2 如果碰到滑动问题，请注意是否获取到 touchmove
+                            event.stopPropagation(); // 如果没有引入jq 就用 stopPropagation()
+                        }, false);
+                    }
+                },
+                //鼠标释放时候的函数
+                end(event) {
+                    this.flags = false;
+                },
+
+
+            }
+        })
+    </script>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .fixed {
+            width: 100px;
+            height: 100px;
+            position: fixed;
+            background: red;
+            left: 10px;
+            top: 15px;
+            cursor: move;
+        }
+    </style>
+</body>
+
+</html>
