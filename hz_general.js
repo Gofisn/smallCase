@@ -557,7 +557,30 @@ $hz.prototype = {
     reverseString: function (str) {
         str = str + "";
         return str.split("").reverse().join("");
-    }
+    },
+    // 复制到剪切板
+    copyText: function (text) {
+        var textarea = document.createElement("input"); //创建input对象
 
+        document.body.appendChild(textarea); //添加元素
+        textarea.value = text;
+        textarea.style.fontSize = "32px";
+        textarea.style.position = "absolute";
+        textarea.style.top = "-50px";
+        textarea.style.left = "-50px";
+        textarea.select();
+        if (textarea.setSelectionRange) {
+            textarea.setSelectionRange(0, textarea.value.length);
+        }
+        try {
+            var flag = document.execCommand("copy"); //执行复制
+        } catch (eo) {
+            var flag = false;
+        }
+        document.body.removeChild(textarea); //删除元素
+        // window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+        console.log("复制成功");
+        return flag;
+    }
 }
 $hz = new $hz();
