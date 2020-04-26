@@ -25,12 +25,9 @@
                     x: 0,
                     y: 0
                 },
-                nx: '',
-                ny: '',
                 dx: '',
                 dy: '',
-                xPum: '',
-                yPum: '',
+             
             },
             methods: {
                 // 实现移动端拖拽
@@ -57,25 +54,25 @@
                         } else {
                             touch = event;
                         }
-                        this.nx = touch.clientX - this.position.x;
-                        this.ny = touch.clientY - this.position.y;
-                        this.xPum = this.dx + this.nx;
-                        this.yPum = this.dy + this.ny;
+                        let nx = touch.clientX - this.position.x;
+                        let ny = touch.clientY - this.position.y;
+                        let xPum = this.dx + nx;
+                        let yPum = this.dy + ny;
                         //添加限制：只允许在屏幕内拖动
                         const maxWidth = document.body.clientWidth - 54; //屏幕宽度减去悬浮框宽高
                         const maxHeight = document.body.clientHeight - 54;
-                        if (this.xPum < 0) { //屏幕x限制
-                            this.xPum = 0;
-                        } else if (this.xPum > maxWidth) {
-                            this.xPum = maxWidth;
+                        if (xPum < 0) { //屏幕x限制
+                            xPum = 0;
+                        } else if (xPum > maxWidth) {
+                            xPum = maxWidth;
                         }
-                        if (this.yPum < 0) { //屏幕y限制
-                            this.yPum = 0;
-                        } else if (this.yPum > maxHeight) {
-                            this.yPum = maxHeight;
+                        if (yPum < 0) { //屏幕y限制
+                            yPum = 0;
+                        } else if (yPum > maxHeight) {
+                            yPum = maxHeight;
                         }
-                        event.target.style.left = this.xPum + "px";
-                        event.target.style.top = this.yPum + "px";
+                        event.target.style.left = xPum + "px";
+                        event.target.style.top = yPum + "px";
                         //阻止页面的滑动默认事件
                         document.addEventListener("touchmove", function (
                             event) { // 1.2 如果碰到滑动问题，请注意是否获取到 touchmove
